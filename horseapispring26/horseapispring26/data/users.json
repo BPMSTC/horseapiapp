@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "email": "admin@horseapi.com",
+    "passwordHash": "$2a$11$TobeB9mG/Xo9RnvHBPH3m.6DNpr7iSSjMUJEYMA7MQYErACv5CttK",
+    "role": 0,
+    "createdDate": "2025-10-08T03:16:17.0843531Z",
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "username": "owner1",
+    "email": "owner@horseapi.com",
+    "passwordHash": "$2a$11$ZoffwTgc.k9.aurJU2rgnO0ATO1rx.gtj/qNmznKhunRAMZLUWG2O",
+    "role": 1,
+    "createdDate": "2025-10-08T03:16:18.0317321Z",
+    "isActive": true
+  },
+  {
+    "id": 3,
+    "username": "trainer1",
+    "email": "trainer@horseapi.com",
+    "passwordHash": "$2a$11$AdlyCo.zTkML3KQ7VDZEEOWHCUMzTW42lojNbv.GwMwP9quPBIigS",
+    "role": 2,
+    "createdDate": "2025-10-08T03:16:18.4424391Z",
+    "isActive": true
+  }
+]

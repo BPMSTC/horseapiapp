@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="horseappspring26.Views.LoginPage"
+             Title="Sign In">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="12">
+            <Label Text="Horse API Demo"
+                   FontSize="28"
+                   FontAttributes="Bold" />
+
+            <Label Text="Sign in to create, update, and delete records."
+                   FontSize="14"
+                   TextColor="Gray" />
+
+            <Label Text="Email" />
+            <Entry Text="{Binding Email}"
+                   Keyboard="Email"
+                   Placeholder="you@example.com" />
+
+            <Label Text="Password" />
+            <Entry Text="{Binding Password}"
+                   IsPassword="True"
+                   Placeholder="Enter password" />
+
+            <Button Text="Login"
+                    Command="{Binding LoginCommand}" />
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   LineBreakMode="WordWrap" />
+
+            <Label Text="Default demo admin: admin@horseapi.com / Admin123!"
+                   FontSize="12"
+                   TextColor="Gray" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

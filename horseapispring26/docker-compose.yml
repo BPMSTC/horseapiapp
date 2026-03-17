@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: horseapi-database
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SA_PASSWORD}
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433" # optional: comment out if you don't need host access
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/1433' || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: horseapispring26/Dockerfile
+    container_name: horseapi-api
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      # Enable SQL path and disable JSON path inside container
+      DataSources__SqlServer__Enabled: "true"
+      DataSources__JsonFile__Enabled: "false"
+      DataSources__ImportFromJsonOnStart: "true"
+      # Connection string uses the database service DNS name
+      ConnectionStrings__DefaultConnection: "Server=database;Database=HorseDB;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=true;"
+      ASPNETCORE_URLS: "http://+:8080"
+      ASPNETCORE_ENVIRONMENT: "Development"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./horseapispring26/data:/app/data:ro
+    profiles:
+      - disabled-by-default
+
+volumes:
+  sqlserver-data:

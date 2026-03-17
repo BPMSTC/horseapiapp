@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="horseappspring26.Views.HorseListPage"
+             x:Name="HorseListPageRoot"
+             Title="Horses">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16" RowSpacing="12">
+        <VerticalStackLayout Grid.Row="0" Spacing="2">
+            <Label Text="Horse Directory"
+                   FontAttributes="Bold"
+                   FontSize="30" />
+            <Label Text="Browse horse profiles. Sign in only when you need to manage records."
+                   FontSize="13"
+                   TextColor="#6A6A6A" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="1"
+                Stroke="#E4E4E4"
+                StrokeThickness="1"
+                BackgroundColor="#FAFAFA"
+                StrokeShape="RoundRectangle 12"
+                Padding="12">
+            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
+                <Entry Grid.Column="0"
+                       Text="{Binding SearchTerm}"
+                       Placeholder="Search by name, owner, trainer..."
+                       ReturnType="Search" />
+
+                <Button Grid.Column="1"
+                        Text="Search"
+                        Command="{Binding SearchCommand}" />
+
+                <Button Grid.Column="2"
+                        Text="Add"
+                        Command="{Binding AddHorseCommand}" />
+            </Grid>
+        </Border>
+
+        <CollectionView Grid.Row="2"
+                        x:Name="HorseCollection"
+                        ItemsSource="{Binding Horses}"
+                        SelectionMode="None">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="20" Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="No horses found"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalTextAlignment="Center" />
+                    <Label Text="Try a different search term."
+                           TextColor="#6A6A6A"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,4"
+                            Padding="12"
+                            Stroke="#E1E1E1"
+                            StrokeThickness="1"
+                            BackgroundColor="#FFFFFF"
+                            StrokeShape="RoundRectangle 10">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenHorseCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="4" ColumnSpacing="10">
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="{Binding Name}"
+                                   FontAttributes="Bold"
+                                   FontSize="17"
+                                   LineBreakMode="TailTruncation" />
+
+                            <Border Grid.Row="0" Grid.Column="1"
+                                    Stroke="#D0D0D0"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 20"
+                                    Padding="8,2">
+                                <Label Text="View"
+                                       FontSize="12"
+                                       TextColor="#4F4F4F" />
+                            </Border>
+
+                            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Text="{Binding RegistrationNumber, StringFormat='Registration: {0}'}"
+                                   FontSize="13"
+                                   TextColor="#6A6A6A" />
+
+                            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Text="{Binding CurrentOwner, StringFormat='Owner: {0}'}"
+                                   FontSize="13"
+                                   TextColor="#4B4B4B" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <VerticalStackLayout Grid.Row="3" Spacing="8">
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="#C62828"
+                   LineBreakMode="WordWrap" />
+
+            <Button Text="{Binding AuthActionText}"
+                    Command="{Binding AuthenticateCommand}" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

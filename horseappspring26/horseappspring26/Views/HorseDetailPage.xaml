@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="horseappspring26.Views.HorseDetailPage"
+             Title="Horse Details">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="14">
+            <Border Stroke="#D9D9D9"
+                    StrokeThickness="1"
+                    BackgroundColor="#FFFFFF"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="0">
+                <Grid HeightRequest="240">
+                    <Image Source="{Binding HorseImageUrl}"
+                           Aspect="AspectFill">
+                        <Image.Triggers>
+                            <DataTrigger TargetType="Image" Binding="{Binding HorseImageUrl}" Value="">
+                                <Setter Property="IsVisible" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Image" Binding="{Binding HorseImageUrl}" Value="{x:Null}">
+                                <Setter Property="IsVisible" Value="False" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+
+                    <Label Text="No horse image available"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="#7A7A7A"
+                           FontAttributes="Italic"
+                           IsVisible="False">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding HorseImageUrl}" Value="">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding HorseImageUrl}" Value="{x:Null}">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                </Grid>
+            </Border>
+
+            <VerticalStackLayout Spacing="2">
+                <Label Text="{Binding Horse.Name}"
+                       FontSize="30"
+                       FontAttributes="Bold"
+                       LineBreakMode="TailTruncation" />
+                <Label Text="{Binding Horse.RegistrationNumber, StringFormat='Registration #{0}'}"
+                       FontSize="13"
+                       TextColor="#6A6A6A" />
+            </VerticalStackLayout>
+
+            <Border Stroke="#E4E4E4"
+                    StrokeThickness="1"
+                    BackgroundColor="#FAFAFA"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="14">
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="18">
+                    <Label Grid.Row="0" Grid.Column="0" Text="Gender" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Horse.Gender}" HorizontalTextAlignment="End" />
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="Color" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Horse.Color}" HorizontalTextAlignment="End" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Date of Birth" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Horse.DateOfBirth, StringFormat='{0:yyyy-MM-dd}'}" HorizontalTextAlignment="End" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="Age" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Horse.Age}" HorizontalTextAlignment="End" />
+                </Grid>
+            </Border>
+
+            <Border Stroke="#E4E4E4"
+                    StrokeThickness="1"
+                    BackgroundColor="#FAFAFA"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="14">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Connections"
+                           FontAttributes="Bold"
+                           FontSize="16" />
+                    <Label Text="{Binding Horse.CurrentOwner, StringFormat='Owner: {0}'}" />
+                    <Label Text="{Binding Horse.Trainer, StringFormat='Trainer: {0}'}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Stroke="#E4E4E4"
+                    StrokeThickness="1"
+                    BackgroundColor="#FAFAFA"
+                    StrokeShape="RoundRectangle 12"
+                    Padding="14">
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="18">
+                    <Label Grid.Row="0" Grid.ColumnSpan="2" Text="Performance" FontAttributes="Bold" FontSize="16" />
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="Career Earnings" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Horse.CareerEarnings, StringFormat='{0:C}'}" HorizontalTextAlignment="End" />
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="Races" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Horse.TotalRacesRun}" HorizontalTextAlignment="End" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Text="Wins" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Horse.Wins}" HorizontalTextAlignment="End" />
+
+                    <Label Grid.Row="4" Grid.Column="0" Text="Places" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Horse.Places}" HorizontalTextAlignment="End" />
+
+                    <Label Grid.Row="5" Grid.Column="0" Text="Shows" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Horse.Shows}" HorizontalTextAlignment="End" />
+
+                    <Label Grid.Row="6" Grid.Column="0" Text="Win %" FontAttributes="Bold" TextColor="#4B4B4B" />
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding Horse.WinPercentage, StringFormat='{0:F1}%'}" HorizontalTextAlignment="End" />
+                </Grid>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,4,0,0">
+                <Button Grid.Column="0"
+                        Text="Edit"
+                        Command="{Binding EditHorseCommand}" />
+                <Button Grid.Column="1"
+                        Text="Delete"
+                        Command="{Binding DeleteHorseCommand}"
+                        IsVisible="{Binding CanDelete}" />
+            </Grid>
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="#C62828"
+                   LineBreakMode="WordWrap" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

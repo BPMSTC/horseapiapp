@@ -1,0 +1,32 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# IDE and user-specific
+.vs/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+
+# NuGet and tooling artifacts
+*.nupkg
+*.snupkg
+artifacts/
+
+# Platform/device artifacts
+*.apk
+*.aab
+*.ipa
+*.appx
+*.appxbundle
+
+# OS files
+.DS_Store
+Thumbs.db

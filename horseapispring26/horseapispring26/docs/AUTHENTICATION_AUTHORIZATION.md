@@ -9,6 +9,62 @@ This API supports two auth modes configured via `Auth:Enabled`.
 
 Authorization attributes on endpoints stay the same; authentication source changes by mode.
 
+## Are JWTs Used In This Solution?
+
+Yes, **JWT bearer tokens are used when `Auth:Enabled = true`**.
+
+- API login endpoint: `POST /login` (mapped by `app.MapIdentityApi<IdentityUser>()`)
+- Login response includes `tokenType`, `accessToken`, `expiresIn`, `refreshToken`
+- MAUI stores `accessToken` in `TokenStore` (`Preferences`)
+- `AuthTokenHandler` adds `Authorization: Bearer <accessToken>` to API requests
+- `[Authorize]` and `[Authorize(Roles = "Admin")]` on controller actions enforce access
+
+When `Auth:Enabled = false`, JWT is **not required**. The custom `DemoAuthenticationHandler` signs in a built-in demo principal for `[Authorize]` endpoints.
+
+---
+
+## Authentication Flow Diagram (Actual Implementation)
+
+```mermaid
+sequenceDiagram
+	autonumber
+	participant U as User (MAUI)
+	participant APP as AuthService (MAUI)
+	participant TS as TokenStore (Preferences)
+	participant ATH as AuthTokenHandler
+	participant API as ASP.NET Core API
+	participant ID as Identity API (/login)
+	participant DB as AuthHorseDbContext
+	participant HC as HorseController
+
+	U->>APP: LoginAsync(email, password)
+	APP->>ID: POST /login
+	ID->>DB: Validate credentials / user
+	DB-->>ID: User + roles (if valid)
+	ID-->>APP: { tokenType, accessToken, expiresIn, refreshToken }
+	APP->>TS: Save accessToken
+
+	U->>APP: Open protected feature (Create/Update/Delete)
+	APP->>ATH: Send API request
+	ATH->>ATH: Read token from TokenStore
+	ATH->>API: Add Authorization: Bearer <accessToken>
+	API->>HC: Route to [Authorize] endpoint
+	HC->>API: Enforce auth/roles
+
+	alt Valid token and role
+		API-->>APP: 2xx success
+	else Missing/invalid token or role
+		API-->>APP: 401 or 403
+	end
+```
+
+### Demo Mode Variant (`Auth:Enabled = false`)
+
+- No `/login` token issuance is mapped.
+- API auth scheme is `DemoAuth`.
+- `DemoAuthenticationHandler` injects claims including role `Admin`.
+- `[Authorize]` endpoints succeed without JWT for classroom/demo workflows.
+
 ---
 
 ## Mode 1: Auth Disabled (Demo Mode)
